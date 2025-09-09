@@ -1,0 +1,68 @@
+# Import necessary libraries
+import pandas as pd
+
+# Load the dataset (replace 'iris.csv' with your file if different)
+df = pd.read_csv('iris.csv')
+
+# Display first few rows
+print(df.head())
+
+# Explore the structure (data types, non-null counts)
+print("\nDataset Info:")
+print(df.info())
+
+# Check for missing values
+print("\nMissing Values:")
+print(df.isnull().sum())
+
+# Clean the dataset: Drop rows with missing values (or you can fill them)
+df.dropna(inplace=True)
+
+# Basic statistics
+print("\nBasic Statistics:")
+print(df.describe())
+
+# Grouping by species and computing mean petal length
+grouped_means = df.groupby('species')['petal_length'].mean()
+print("\nMean Petal Length by Species:")
+print(grouped_means)
+
+# Identify patterns (example: which species has the largest average petal length?)
+max_species = grouped_means.idxmax()
+print(f"\nSpecies with largest average petal length: {max_species}")
+
+
+import matplotlib.pyplot as plt
+
+# 1. Line chart - example using sepal length over index (no time data in Iris, so using index)
+plt.figure(figsize=(8,5))
+plt.plot(df.index, df['sepal_length'], label='Sepal Length', color='blue')
+plt.title("Line Chart: Sepal Length Trend")
+plt.xlabel("Index")
+plt.ylabel("Sepal Length")
+plt.legend()
+plt.show()
+
+# 2. Bar chart - average petal length per species
+plt.figure(figsize=(8,5))
+grouped_means.plot(kind='bar', color='orange')
+plt.title("Average Petal Length per Species")
+plt.xlabel("Species")
+plt.ylabel("Average Petal Length")
+plt.show()
+
+# 3. Histogram - distribution of sepal length
+plt.figure(figsize=(8,5))
+plt.hist(df['sepal_length'], bins=20, color='green', alpha=0.7)
+plt.title("Histogram: Sepal Length Distribution")
+plt.xlabel("Sepal Length")
+plt.ylabel("Frequency")
+plt.show()
+
+# 4. Scatter plot - sepal length vs petal length
+plt.figure(figsize=(8,5))
+plt.scatter(df['sepal_length'], df['petal_length'], c='red', alpha=0.5)
+plt.title("Scatter Plot: Sepal Length vs Petal Length")
+plt.xlabel("Sepal Length")
+plt.ylabel("Petal Length")
+plt.show()
